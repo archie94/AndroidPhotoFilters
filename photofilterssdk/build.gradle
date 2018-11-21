@@ -1,14 +1,13 @@
+def rootConfiguration = rootProject.ext
 apply plugin: 'com.android.library'
-apply from: 'maven-push.gradle'
-apply from: '../config/quality.gradle'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootConfiguration.compileSdkVersion
+    buildToolsVersion rootConfiguration.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion rootConfiguration.minSdkVersion
+        targetSdkVersion rootConfiguration.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -18,10 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets.main.jni.srcDirs = []
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
 }
